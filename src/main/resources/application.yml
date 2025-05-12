@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: origin-energy-url-shortener
