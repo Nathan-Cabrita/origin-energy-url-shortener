@@ -2,11 +2,11 @@ package com.nathancabrita.origin.energy.url.shortener.application.persistence
 
 import spock.lang.Specification
 
-class UrlStoreTest extends Specification {
-    private UrlStore urlStore
+class InMemoryUrlStoreTest extends Specification {
+    private InMemoryUrlStore urlStore
 
     def setup(){
-        urlStore = new UrlStore()
+        urlStore = new InMemoryUrlStore()
     }
 
     def "url store can add and retrieve short url + long url"(){
