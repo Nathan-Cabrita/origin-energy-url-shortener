@@ -1,5 +1,6 @@
 package com.nathancabrita.origin.energy.url.shortener.application.persistence;
 
+import com.nathancabrita.origin.energy.url.shortener.application.exception.ShortUrlNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -13,7 +14,12 @@ public class InMemoryUrlStore implements UrlStore{
         store.put(shortUrl, url);
     }
 
-    public String getUrl(String key) {
-        return store.get(key);
+    public String getLongUrl(String shortUrlKey) {
+        String longUrl = store.get(shortUrlKey);
+        if(longUrl != null){
+            return longUrl;
+        }else {
+            throw new ShortUrlNotFoundException(String.format("Short URL not found in memory store for url %s", shortUrlKey));
+        }
     }
 }
