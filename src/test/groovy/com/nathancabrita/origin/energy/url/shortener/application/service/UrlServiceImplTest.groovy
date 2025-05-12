@@ -28,7 +28,7 @@ class UrlServiceTest extends Specification {
 
         then:
         1 * urlValidator.validateUrl(url) >> true
-        1 * urlShortenerService.getShortUrl(url) >> shortUrl
+        1 * urlShortenerService.getShortUrl() >> shortUrl
         1 * urlStore.putUrl(shortUrl, url)
     }
 
