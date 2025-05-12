@@ -1,5 +1,6 @@
 package com.nathancabrita.origin.energy.url.shortener.application.service;
 
+import com.nathancabrita.origin.energy.url.shortener.application.domain.ShortUrl;
 import com.nathancabrita.origin.energy.url.shortener.application.exception.ValidationException;
 import com.nathancabrita.origin.energy.url.shortener.application.persistence.UrlStore;
 import com.nathancabrita.origin.energy.url.shortener.application.validator.UrlValidator;
@@ -14,13 +15,18 @@ public class UrlServiceImpl implements UrlService{
     private final UrlShortenerService urlShortenerService;
 
     @Override
-    public String shortenAndStoreUrl(String url) {
-        if(urlValidator.validateUrl(url)){
-            String shortUrl = urlShortenerService.getShortUrl();
-            inMemoryUrlStore.putUrl(shortUrl, url);
-            return shortUrl;
+    public String shortenAndStoreUrl(String longUrl) {
+        if(urlValidator.validateUrl(longUrl)){
+            ShortUrl shortUrl = urlShortenerService.getShortUrl();
+            inMemoryUrlStore.putUrl(shortUrl.shortUrlKey(), longUrl);
+            return shortUrl.toString();
         } else {
-            throw new ValidationException(String.format("Url %s is not formatted correctly", url));
+            throw new ValidationException(String.format("Url %s is not formatted correctly", longUrl));
         }
+    }
+
+    @Override
+    public String getLongUrl(String shortUrlKey) {
+        return inMemoryUrlStore.getLongUrl(shortUrlKey);
     }
 }
