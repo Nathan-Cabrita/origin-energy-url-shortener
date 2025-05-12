@@ -16,11 +16,11 @@ public class UrlServiceImpl implements UrlService{
     @Override
     public String shortenAndStoreUrl(String url) {
         if(urlValidator.validateUrl(url)){
-            String shortUrl = urlShortenerService.shortenUrl(url);
+            String shortUrl = urlShortenerService.getShortUrl();
             inMemoryUrlStore.putUrl(shortUrl, url);
             return shortUrl;
         } else {
-            throw new ValidationException(String.format("Url {} is not formatted correctly", url));
+            throw new ValidationException(String.format("Url %s is not formatted correctly", url));
         }
     }
 }

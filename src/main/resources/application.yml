@@ -1,3 +1,5 @@
-spring:
-  application:
-    name: origin-energy-url-shortener
+application:
+  short-url:
+    domain: ${domain:http://localhost:8080/}
+    shortUrlKeyLength: 8
+  name: origin-energy-url-shortener
