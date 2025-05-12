@@ -1,5 +1,8 @@
 package com.nathancabrita.origin.energy.url.shortener.application.validator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UrlValidatorImpl implements UrlValidator{
 
     @Override
