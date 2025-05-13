@@ -21,20 +21,20 @@ class UrlServiceImplTest extends BaseTest {
 
     def "service should shorten and store urls" (){
         when:
-        urlService.shortenAndStoreUrl(longUrl)
+        urlService.shortenAndStoreLongUrl(originalLongUrl)
 
         then:
-        1 * urlValidator.validateUrl(longUrl) >> true
+        1 * urlValidator.validateUrl(originalLongUrl) >> Optional.of(longUrlURI)
         1 * urlShortenerService.getShortUrl() >> shortUrl
-        1 * urlStore.putUrl(shortUrl, longUrl)
+        1 * urlStore.putUrl(shortUrl.shortUrlKey(), _)
     }
 
     def "service should throw validation exception when url is invalid" (){
         when:
-        urlService.shortenAndStoreUrl(invalidLongUrl)
+        urlService.shortenAndStoreLongUrl(invalidLongUrl)
 
         then:
-        1 * urlValidator.validateUrl(invalidLongUrl) >> false
+        1 * urlValidator.validateUrl(invalidLongUrl) >> Optional.empty()
         0 * urlShortenerService.getShortUrl(invalidLongUrl)
         0 * urlStore.putUrl(_, invalidLongUrl)
         thrown(ValidationException)

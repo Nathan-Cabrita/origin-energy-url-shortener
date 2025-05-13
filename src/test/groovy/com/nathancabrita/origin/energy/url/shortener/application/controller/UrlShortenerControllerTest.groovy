@@ -29,13 +29,13 @@ class UrlShortenerControllerTest extends BaseTest {
     def "handles the getShortUrl request"(){
         when:
         def response = mockMvc.perform(get(GET_SHORT_URL_REQUEST_PATH)
-                .param('url', longUrl))
+                .param('url', originalLongUrl))
                 .andReturn().response
 
         then:
-        1 * urlService.shortenAndStoreUrl(longUrl) >> shortUrl
+        1 * urlService.shortenAndStoreLongUrl(originalLongUrl) >> shortUrl
         assert response.status == HttpStatus.OK.value()
-        assert response.contentAsString == shortUrl
+        assert response.contentAsString == shortUrl.toString()
     }
 
     def "handles the getShortUrl request when invalid url is entered with HTTP 400"(){
@@ -45,7 +45,7 @@ class UrlShortenerControllerTest extends BaseTest {
                 .andReturn().response
 
         then:
-        1 * urlService.shortenAndStoreUrl(invalidLongUrl) >> { throw new ValidationException("") }
+        1 * urlService.shortenAndStoreLongUrl(invalidLongUrl) >> { throw new ValidationException("") }
         assert response.status == HttpStatus.BAD_REQUEST.value()
     }
 
@@ -56,7 +56,7 @@ class UrlShortenerControllerTest extends BaseTest {
                 .andReturn().response
 
         then:
-        1 * urlService.shortenAndStoreUrl(invalidLongUrl) >> { throw new Exception("") }
+        1 * urlService.shortenAndStoreLongUrl(invalidLongUrl) >> { throw new Exception("") }
         assert response.status == HttpStatus.INTERNAL_SERVER_ERROR.value()
     }
 
@@ -67,9 +67,9 @@ class UrlShortenerControllerTest extends BaseTest {
                 .andReturn().response
 
         then:
-        1 * urlService.getLongUrl(_) >> longUrl
+        1 * urlService.getLongUrl(_) >> originalLongUrl
         assert response.status == HttpStatus.FOUND.value()
-        assert response.getHeader("Location") == longUrl
+        assert response.getHeader("Location") == originalLongUrl
     }
 
     def "handles the redirectToLongUrl request when short url cannot be found with HTTP 404"(){

@@ -12,7 +12,7 @@ class InMemoryUrlStoreTest extends BaseTest {
 
     def "url store throws ShortUrlNotFoundException when short url is not in the memory store"(){
         when:
-        urlStore.getLongUrl(shortUrl)
+        urlStore.getLongUrl(shortUrl.shortUrlKey())
 
         then:
         thrown (ShortUrlNotFoundException)
@@ -20,10 +20,10 @@ class InMemoryUrlStoreTest extends BaseTest {
 
     def "url store can add and retrieve short url + long url"(){
         given:
-        urlStore.putUrl(shortUrl, longUrl)
+        urlStore.putUrl(shortUrl.shortUrlKey(), longUrl)
 
         when:
-        def result = urlStore.getLongUrl(shortUrl)
+        def result = urlStore.getLongUrl(shortUrl.shortUrlKey())
 
         then:
         result == longUrl

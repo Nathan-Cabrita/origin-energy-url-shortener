@@ -15,7 +15,7 @@ class UrlValidatorImplTest extends BaseTest {
 
         where:
         url                                           | result
-        "https://www.youtube.com/watch?v=dQw4w9WgXcQ" | true
-        "invalidUrl"                                  | false
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ" | Optional.of(longUrlURI)
+        "invalidUrl"                                  | Optional.empty()
     }
 }
