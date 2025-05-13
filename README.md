@@ -25,9 +25,17 @@ cd origin-energy-url-shortener
 
 
 ### 🔥 Run the application
+#### Gradle
 ```bash
 ./gradlew bootRun
 ```
+
+#### Docker
+```bash
+docker build -t origin-energy-url-shortener .
+docker run -p 8080:8080 origin-energy-url-shortener
+```
+
 
 ### Make Requests
 This endpoint is used to receive a shortened URL which can be used to get redirected to your original URL
