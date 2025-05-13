@@ -1,8 +1,8 @@
 package com.nathancabrita.origin.energy.url.shortener.application.validator
 
-import spock.lang.Specification
+import com.nathancabrita.origin.energy.url.shortener.application.BaseTest
 
-class UrlValidatorImplTest extends Specification {
+class UrlValidatorImplTest extends BaseTest {
     private UrlValidatorImpl urlValidator
 
     def setup() {

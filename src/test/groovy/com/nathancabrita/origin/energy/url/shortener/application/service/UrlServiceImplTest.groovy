@@ -1,11 +1,12 @@
 package com.nathancabrita.origin.energy.url.shortener.application.service
 
+import com.nathancabrita.origin.energy.url.shortener.application.BaseTest
 import com.nathancabrita.origin.energy.url.shortener.application.exception.ValidationException
 import com.nathancabrita.origin.energy.url.shortener.application.persistence.UrlStore
 import com.nathancabrita.origin.energy.url.shortener.application.validator.UrlValidator
-import spock.lang.Specification
 
-class UrlServiceTest extends Specification {
+
+class UrlServiceImplTest extends BaseTest {
     private UrlService urlService
     private UrlStore urlStore
     private UrlValidator urlValidator
@@ -19,30 +20,23 @@ class UrlServiceTest extends Specification {
     }
 
     def "service should shorten and store urls" (){
-        given:
-        def url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        def shortUrl = "https://short.url"
-
         when:
-        urlService.shortenAndStoreUrl(url)
+        urlService.shortenAndStoreUrl(longUrl)
 
         then:
-        1 * urlValidator.validateUrl(url) >> true
+        1 * urlValidator.validateUrl(longUrl) >> true
         1 * urlShortenerService.getShortUrl() >> shortUrl
-        1 * urlStore.putUrl(shortUrl, url)
+        1 * urlStore.putUrl(shortUrl, longUrl)
     }
 
     def "service should throw validation exception when url is invalid" (){
-        given:
-        def url = "invalidURL"
-
         when:
-        urlService.shortenAndStoreUrl(url)
+        urlService.shortenAndStoreUrl(invalidLongUrl)
 
         then:
-        1 * urlValidator.validateUrl(url) >> false
-        0 * urlShortenerService.getShortUrl(url)
-        0 * urlStore.putUrl(_, url)
+        1 * urlValidator.validateUrl(invalidLongUrl) >> false
+        0 * urlShortenerService.getShortUrl(invalidLongUrl)
+        0 * urlStore.putUrl(_, invalidLongUrl)
         thrown(ValidationException)
     }
 }

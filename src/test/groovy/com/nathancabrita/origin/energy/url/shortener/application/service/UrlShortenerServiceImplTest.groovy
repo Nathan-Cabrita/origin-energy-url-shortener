@@ -1,9 +1,9 @@
 package com.nathancabrita.origin.energy.url.shortener.application.service
 
+import com.nathancabrita.origin.energy.url.shortener.application.BaseTest
 import com.nathancabrita.origin.energy.url.shortener.application.config.UrlShortenerConfig
-import spock.lang.Specification
 
-class UrlShortenerServiceImplTest extends Specification {
+class UrlShortenerServiceImplTest extends BaseTest {
 
     private UrlShortenerConfig config
 
