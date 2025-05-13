@@ -17,7 +17,7 @@ public class UrlShortenerController {
     @GetMapping("/short-url")
     public ResponseEntity<String> getShortUrl(@RequestParam String url) {
         try {
-            return ResponseEntity.ok(urlService.shortenAndStoreUrl(url));
+            return ResponseEntity.ok(urlService.shortenAndStoreLongUrl(url));
         } catch (ValidationException e) {
             return ResponseEntity.badRequest().body("Invalid URL entered");
         } catch (Exception e) {
@@ -32,7 +32,18 @@ public class UrlShortenerController {
                     .header(HttpHeaders.LOCATION, urlService.getLongUrl(shortUrlKey))
                     .build();
         } catch (ShortUrlNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            return buildNotFoundError();
+        } catch (Exception e) {
+            return buildInternalError();
+        }
+    }
+
+    @GetMapping("/{shortUrlKey}/info")
+    public ResponseEntity<?> getLongUrlInfo(@PathVariable String shortUrlKey) {
+        try {
+            return ResponseEntity.ok().body(urlService.getLongUrlInfo(shortUrlKey));
+        } catch (ShortUrlNotFoundException e) {
+            return buildNotFoundError();
         } catch (Exception e) {
             return buildInternalError();
         }
@@ -40,5 +51,9 @@ public class UrlShortenerController {
 
     private ResponseEntity<String> buildInternalError() {
         return ResponseEntity.internalServerError().body("Internal Server error");
+    }
+
+    private ResponseEntity<String> buildNotFoundError() {
+        return ResponseEntity.notFound().build();
     }
 }

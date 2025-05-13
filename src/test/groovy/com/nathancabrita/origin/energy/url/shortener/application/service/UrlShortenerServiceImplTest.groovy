@@ -21,7 +21,7 @@ class UrlShortenerServiceImplTest extends BaseTest {
         def result = urlShortenerService.getShortUrl()
 
         then:
-        assert result.length() == config.getDomain().length() + config.getShortUrlKeyLength()
-        assert result.startsWith(config.getDomain())
+        assert result.domain() == config.getDomain()
+        assert result.shortUrlKey().length() == config.getShortUrlKeyLength()
     }
 }

@@ -39,4 +39,23 @@ class UrlServiceImplTest extends BaseTest {
         0 * urlStore.putUrl(_, invalidLongUrl)
         thrown(ValidationException)
     }
+
+    def "service should get long Url" (){
+        when:
+        def result = urlService.getLongUrl(shortUrlKey)
+
+        then:
+        1 * urlStore.getLongUrl(shortUrlKey) >> longUrl
+        assert result == longUrl.originalUrl.toString()
+    }
+
+    def "service should get long Url Info" (){
+        when:
+        def result = urlService.getLongUrlInfo(shortUrlKey)
+
+        then:
+        1 * urlStore.getLongUrl(shortUrlKey) >> longUrl
+        assert result == longUrl
+    }
+
 }
